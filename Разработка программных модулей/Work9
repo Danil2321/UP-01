@@ -1,0 +1,104 @@
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
+import java.util.Scanner;
+class Card {
+    private final int number;
+    public Card(int number) {
+        this.number = number;
+    }
+    public int getNumber() {
+        return number;
+    }
+    @Override
+    public String toString() {
+        return String.valueOf(number);
+    }
+}
+class CardDeck {
+    private List<Card> cards;
+    private Random random;
+    public CardDeck() {
+        cards = new ArrayList<>();
+        random = new Random();
+        for (int i = 1; i <= 13; i++) {
+            for (int j = 0; j < 4; j++) {
+                cards.add(new Card(i));
+            }
+        }
+        Collections.shuffle(cards); // Перемешиваем колоду
+    }
+    public Card drawCard() {
+        if (cards.isEmpty()) {
+            return null;
+        }
+        return cards.remove(cards.size() - 1);
+    }
+}
+class GameBoard {
+    private final int size = 5;
+    public final int[][] board;
+    public GameBoard() {
+        board = new int[size][size];
+    }
+    public void fillCell(int row, int col, int number) {
+        board[row][col] = number;
+    }
+    public void printBoard() {
+        for (int[] row : board) {
+            for (int cell : row) {
+                System.out.print(cell + " ");
+            }
+            System.out.println();
+        }
+    }
+    public int evaluate() {
+        int sum = 0;
+        for (int[] row : board) {
+            for (int cell : row) {
+                sum += cell;
+            }
+        }
+        return sum;
+    }
+}
+public class MathGame {
+    private CardDeck cardDeck;
+    private GameBoard gameBoard;
+    private Scanner scanner;
+    public MathGame() {
+        cardDeck = new CardDeck();
+        gameBoard = new GameBoard();
+        scanner = new Scanner(System.in);
+    }
+    public void playGame() {
+        int filledCells = 0;
+        while (filledCells < 25) {
+            Card drawnCard = cardDeck.drawCard();
+            if (drawnCard == null) {
+                System.out.println("Больше нет карт!");
+                break;
+            }
+            System.out.println("Вытащенная карта: " + drawnCard);
+            System.out.print("Введите строку (0-4) и столбец (0-4) для размещения карты: ");
+            int row = scanner.nextInt();
+            int col = scanner.nextInt();
+            if (row < 0 || row >= 5 || col < 0 || col >= 5 || gameBoard.board[row][col] != 0) {
+                System.out.println("Неверная позиция или ячейка уже заполнена. Попробуйте снова.");
+                continue;
+            }
+            gameBoard.fillCell(row, col, drawnCard.getNumber());
+            filledCells++;
+            gameBoard.printBoard();
+        }
+        System.out.println("Игра окончена! Финальная доска:");
+        gameBoard.printBoard();
+        System.out.println("Счет: " + gameBoard.evaluate());
+    }
+    public static void main(String[] args) {
+        MathGame game = new MathGame();
+        game.playGame();
+    }
+}
+
