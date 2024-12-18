@@ -1,0 +1,16 @@
+section .text
+global Padd
+
+Padd:
+    push ebp            
+    mov ebp, esp       
+
+    mov eax, [ebp + 8] 
+    mov edx, [ebp + 12]
+
+    add dword [eax], edx 
+
+    pop ebp             
+    ret
+
+
