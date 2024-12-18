@@ -1,0 +1,184 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
+public class Tree {
+    private List<Branch> branches;
+
+    public Tree() {
+        branches = new ArrayList<>();
+    }
+
+    public void addBranch(Branch branch) {
+        branches.add(branch);
+    }
+
+    public void removeBranch(Branch branch) {
+        branches.remove(branch);
+    }
+
+    public void bloomAllLeaves() {
+        for (Branch branch : branches) {
+            branch.bloomLeaves();
+        }
+    }
+
+    public void witherAllLeaves() {
+        for (Branch branch : branches) {
+            branch.witherLeaves();
+        }
+    }
+
+    public void frostAllLeaves() {
+        for (Branch branch : branches) {
+            branch.frostLeaves();
+        }
+    }
+
+    public void yellowAllLeaves() {
+        for (Branch branch : branches) {
+            branch.yellowLeaves();
+        }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Tree tree = (Tree) o;
+        return Objects.equals(branches, tree.branches);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(branches);
+    }
+
+    @Override
+    public String toString() {
+        return "Дерево{" +
+                "ветви=" + branches +
+                '}';
+    }
+}
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
+public class Branch {
+    private List<Leaf> leaves;
+
+    public Branch() {
+        leaves = new ArrayList<>();
+    }
+
+    public void addLeaf(Leaf leaf) {
+        leaves.add(leaf);
+    }
+
+    public void removeLeaf(Leaf leaf) {
+        leaves.remove(leaf);
+    }
+
+    public void bloomLeaves() {
+        for (Leaf leaf : leaves) {
+            leaf.bloom();
+        }
+    }
+
+    public void witherLeaves() {
+        for (Leaf leaf : leaves) {
+            leaf.wither();
+        }
+    }
+
+    public void frostLeaves() {
+        for (Leaf leaf : leaves) {
+            leaf.frost();
+        }
+    }
+
+    public void yellowLeaves() {
+        for (Leaf leaf : leaves) {
+            leaf.yellow();
+        }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Branch branch = (Branch) o;
+        return Objects.equals(leaves, branch.leaves);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(leaves);
+    }
+
+    @Override
+    public String toString() {
+        return "Ветвь{" +
+                "листья=" + leaves +
+                '}';
+    }
+}
+
+import java.util.Objects;
+
+public class Leaf {
+    private String color;
+    private boolean isBlooming;
+    private boolean isFrosted;
+
+    public Leaf(String color) {
+        this.color = color;
+        this.isBlooming = false;
+        this.isFrosted = false;
+    }
+
+    public void bloom() {
+        isBlooming = true;
+        System.out.println("Лист распускается.");
+    }
+
+    public void wither() {
+        isBlooming = false;
+        System.out.println("Лист вянет.");
+    }
+
+    public void frost() {
+        isFrosted = true;
+        System.out.println("Лист покрывается инеем.");
+    }
+
+    public void yellow() {
+        color = "желтый";
+        System.out.println("Лист стал желтым.");
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Leaf leaf = (Leaf) o;
+        return isBlooming == leaf.isBlooming &&
+                isFrosted == leaf.isFrosted &&
+                Objects.equals(color, leaf.color);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(color, isBlooming, isFrosted);
+    }
+
+    @Override
+    public String toString() {
+        return "Лист{" +
+                "цвет='" + color + '\'' +
+                ", распускается=" + isBlooming +
+                ", покрыт инеем=" + isFrosted +
+                '}';
+
