@@ -1,0 +1,46 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.geom.*;
+public class ButterflyDrawing extends JPanel {
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        Color[] wingColors = {Color.RED, Color.ORANGE};
+        g2d.setColor(Color.BLACK);
+        g2d.fillRect(175, 175, 20, 100);
+        Shape leftTopWing = createWingShape(140, 175, -1, -1);
+        g2d.setColor(wingColors[0]);
+        g2d.fill(leftTopWing);
+        Shape rightTopWing = createWingShape(220, 175, 1, -1);
+        g2d.setColor(wingColors[0]);
+        g2d.fill(rightTopWing);
+        Shape leftBottomWing = createWingShape(140, 275, -1, 1);
+        g2d.setColor(wingColors[1]);
+        g2d.fill(leftBottomWing);
+        Shape rightBottomWing = createWingShape(220, 275, 1, 1);
+        g2d.setColor(wingColors[1]);
+        g2d.fill(rightBottomWing);
+        g2d.drawLine(185, 175, 155, 125);
+        g2d.drawLine(185, 175, 215, 125);
+    }
+    private Shape createWingShape(int x, int y, int xDirection, int yDirection) {
+        GeneralPath wing = new GeneralPath();
+        wing.moveTo(x, y);
+        wing.quadTo(x + 30 * xDirection, y - 50 * yDirection, x + 60 * xDirection, y);
+        wing.quadTo(x + 30 * xDirection, y + 50 * yDirection, x, y + 100 * yDirection);
+        wing.closePath();
+        return wing;
+    }
+    public static void main(String[] args) {
+        JFrame frame = new JFrame("Butterfly Drawing");
+        ButterflyDrawing panel = new ButterflyDrawing();
+        frame.add(panel);
+        frame.setSize(400, 400);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+    }
+}
+
